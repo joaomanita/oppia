@@ -51,6 +51,15 @@
           <oppia-search-bar [enableDropup]="false"></oppia-search-bar>
         </div>
 
+        <div>
+          <p>
+            Add a category: how would you categorize your collection?
+            <oppia-checkbox-filter-card [choices]="['Option 1', 'Option 2', 'Option 3']"
+              (selectedChoicesChange)="updateCollectionTags()">
+            </oppia-checkbox-filter-card>
+          </p>
+        </div>
+
         <div class="oppia-classroom-div">
           <div class="oppia-classroom-text">
             <h1 class="oppia-classroom-h2" tabindex="0">{{ 'I18N_CLASSROOM_CALLOUT_HEADING_2' | translate }}</h1>

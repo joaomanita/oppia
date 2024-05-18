@@ -51,6 +51,7 @@
 /core/templates/services/loader.service*.ts @oppia/lace-frontend-reviewers
 /core/templates/components/code-mirror/ @oppia/lace-frontend-reviewers
 /core/templates/components/filter-fields/ @oppia/lace-frontend-reviewers
+/core/templates/components/filter-cards/ @oppia/lace-frontend-reviewers
 /core/templates/components/oppia-angular-root.component.* @oppia/lace-frontend-reviewers
 /core/templates/modules/ @oppia/lace-frontend-reviewers
 /core/templates/pages/common-imports.ts @oppia/lace-frontend-reviewers

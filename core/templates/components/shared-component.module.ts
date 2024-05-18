@@ -97,6 +97,7 @@ import {SearchBarModule} from 'pages/library-page/search-bar/search-bar.module';
 import {SubtopicSummaryTileComponent} from './summary-tile/subtopic-summary-tile.component';
 import {FilteredChoicesFieldComponent} from './filter-fields/filtered-choices-field/filtered-choices-field.component';
 import {MultiSelectionFieldComponent} from './filter-fields/multi-selection-field/multi-selection-field.component';
+import {CheckboxFilterCardComponent} from './filter-cards/checkbox-filter-card/checkbox-filter-card.component';
 import {ConceptCardComponent} from './concept-card/concept-card.component';
 import {ScoreRingComponent} from './score-ring/score-ring.component';
 import {CompletionGraphComponent} from './statistics-directives/completion-graph.component';
@@ -258,6 +259,7 @@ import {DirectivesModule} from 'directives/directives.module';
     ExplorationFooterComponent,
     ExplorationSummaryTileComponent,
     FilteredChoicesFieldComponent,
+    CheckboxFilterCardComponent,
     FeedbackPopupComponent,
     PracticeTabComponent,
     CollectionSummaryTileComponent,
@@ -383,6 +385,7 @@ import {DirectivesModule} from 'directives/directives.module';
     ExplorationFooterComponent,
     ExplorationSummaryTileComponent,
     FilteredChoicesFieldComponent,
+    CheckboxFilterCardComponent,
     FeedbackPopupComponent,
     MultiSelectionFieldComponent,
     PracticeTabComponent,
@@ -540,6 +543,7 @@ import {DirectivesModule} from 'directives/directives.module';
     LearnerAnswerInfoCard,
     MultiSelectionFieldComponent,
     FilteredChoicesFieldComponent,
+    CheckboxFilterCardComponent,
     PracticeTabComponent,
     CollectionSummaryTileComponent,
     HintAndSolutionButtonsComponent,
