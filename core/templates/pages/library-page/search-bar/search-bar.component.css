@@ -96,8 +96,8 @@ oppia-search-bar .oppia-navbar-button-container {
   color: #afafaf;
 }
 oppia-search-bar .oppia-input-group {
-  max-width: 375px;
-  width: 17em;
+  max-width: 700px;
+  width: 70em;
 }
 .oppia-search-bar-dropdown-toggle {
   border-radius: 0;

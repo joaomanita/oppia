@@ -22,6 +22,7 @@
   </form>
 </div>
 
+<!--
 <div class="oppia-same-row-container">
   <div [ngClass]="{'open' : activeMenuName === 'category', 'dropup' : enableDropup}"
        ngbDropdown
@@ -228,6 +229,7 @@
       </ng-container>
     </ul>
   </div>
+
   <div class="oppia-same-row-container">
     <div class="search-bar-float-left oppia-navbar-button-container">
       <div *ngIf="searchButtonIsActive"
@@ -240,7 +242,8 @@
       </div>
     </div>
   </div>
-</div>
+ </div>
+-->
 <style>
   :lang(ar) .oppia-search-bar-dropdown-toggle-button:after {
      margin-right: 30px;
@@ -248,11 +251,17 @@
   :lang(ar) .oppia-search-bar-dropdown-toggle:after {
     margin-right: 2px;
   }
-  @media (max-width: 445px) {
+
+.classroom-page-input-group.inptcls {
+    font-size: 15.7px;
+    width: 40em;
+ }
+
+@media (max-width: 445px) {
 
 .classroom-page-input-group.inptcls {
       font-size: 15.7px;
-      width: 14em;
+      width: 40em;
  }
 
 /* stylelint-disable order/properties-alphabetical-order */
