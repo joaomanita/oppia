@@ -1,9 +1,18 @@
-<div>
-  <div *ngFor="let option of choices">
-    <input type="checkbox"
-           [id]="option"
-           [checked]="selectedChoices[option]"
-           (change)="onCheckboxChange(option)">
-    <label [for]="option">{{ option }}</label>
-  </div>
+<div class="container">
+  <mat-card class="list-view-item">
+    <mat-card-content>
+      <h3>Filter by subject</h3>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <div class="checkbox-container">
+        <mat-checkbox class="oppia-checkbox"
+                      *ngFor="let option of choices"
+                      [(ngModel)]="selectedChoices[option]"
+                      (change)="onCheckboxChange(option)">
+          {{ option }}
+        </mat-checkbox>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

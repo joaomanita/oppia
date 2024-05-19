@@ -1,4 +1,9 @@
 <div class="oppia-library-container d-flex">
+  <div class="oppia-checkbox-filter-container">
+    <oppia-checkbox-filter-card [choices]="['Option 1', 'Option 2', 'Option 3']"
+      (selectedChoicesChange)="updateCollectionTags()">
+    </oppia-checkbox-filter-card>
+  </div>
   <div class="oppia-library-container-inner m-auto">
     <div>
       <div class="oppia-exp-summary-tiles-container" *ngIf="pageMode === LIBRARY_PAGE_MODES.SEARCH">
@@ -49,15 +54,6 @@
 
         <div class="oppia-search-bar-container">
           <oppia-search-bar [enableDropup]="false"></oppia-search-bar>
-        </div>
-
-        <div>
-          <p>
-            Add a category: how would you categorize your collection?
-            <oppia-checkbox-filter-card [choices]="['Option 1', 'Option 2', 'Option 3']"
-              (selectedChoicesChange)="updateCollectionTags()">
-            </oppia-checkbox-filter-card>
-          </p>
         </div>
 
         <div class="oppia-classroom-div">

@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  justify-content: flex-start; /* Aligns the card to the left */
+  padding: 16px; /* Adds some padding around the container */
+  width: 250px; /* Sets a smaller width for the card */
+}
+ 
+.list-view-item {
+  margin-right: 16px; /* Adds some space to the right of the card */
+  padding: 16px;
+}
+ 
+.checkbox-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+ 
+.mat-checkbox-layout {
+  width: 100%;
+}
+ 
+.mat-divider {
+  margin: 16px 0; /* Adjusts spacing around the divider */
+}

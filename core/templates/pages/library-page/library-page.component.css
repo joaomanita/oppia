@@ -213,6 +213,16 @@ oppia-library-page .oppia-search-bar-container {
   padding-bottom: 60px;
   width: 100%;
 }
+
+.oppia-checkbox-filter-container {
+  display: flex;
+  justify-content: flex-start;
+  left: 250px;
+  max-width: 250px !important;
+  position: absolute;
+  top: 500px;
+}
+
 .oppia-library-no-exploration-groups {
   margin: 150px auto;
 }
