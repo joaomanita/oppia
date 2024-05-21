@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * @fileoverview Module for the search bar component.
+ * @fileoverview Module for the category lang filter component.
  */
 
 import {CommonModule} from '@angular/common';
@@ -22,7 +22,7 @@ import {FormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
-import {SearchBarComponent} from 'pages/library-page/search-bar/search-bar.component';
+import {CategoryLangFilterComponent} from 'pages/library-page/category-lang-filter/category-lang-filter.component';
 import {StringUtilityPipesModule} from 'filters/string-utility-filters/string-utility-pipes.module';
 import {MaterialModule} from 'modules/material.module';
 
@@ -35,8 +35,8 @@ import {MaterialModule} from 'modules/material.module';
     TranslateModule,
     MaterialModule,
   ],
-  declarations: [SearchBarComponent],
-  entryComponents: [SearchBarComponent],
-  exports: [SearchBarComponent],
+  declarations: [CategoryLangFilterComponent],
+  entryComponents: [CategoryLangFilterComponent],
+  exports: [CategoryLangFilterComponent],
 })
-export class SearchBarModule {}
+export class CategoryLangFilterModule {}

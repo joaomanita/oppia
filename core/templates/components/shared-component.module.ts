@@ -94,10 +94,10 @@ import {DisplaySolutionInterstititalModalComponent} from 'pages/exploration-play
 import {DisplayHintModalComponent} from 'pages/exploration-player-page/modals/display-hint-modal.component';
 import {HintAndSolutionButtonsComponent} from './button-directives/hint-and-solution-buttons.component';
 import {SearchBarModule} from 'pages/library-page/search-bar/search-bar.module';
+import {CategoryLangFilterModule} from 'pages/library-page/category-lang-filter/category-lang-filter.module';
 import {SubtopicSummaryTileComponent} from './summary-tile/subtopic-summary-tile.component';
 import {FilteredChoicesFieldComponent} from './filter-fields/filtered-choices-field/filtered-choices-field.component';
 import {MultiSelectionFieldComponent} from './filter-fields/multi-selection-field/multi-selection-field.component';
-import {CheckboxFilterCardComponent} from './filter-cards/checkbox-filter-card/checkbox-filter-card.component';
 import {ConceptCardComponent} from './concept-card/concept-card.component';
 import {ScoreRingComponent} from './score-ring/score-ring.component';
 import {CompletionGraphComponent} from './statistics-directives/completion-graph.component';
@@ -211,6 +211,7 @@ import {DirectivesModule} from 'directives/directives.module';
     OppiaCkEditor4Module,
     RichTextComponentsModule,
     SearchBarModule,
+    CategoryLangFilterModule,
     SharedFormsModule,
     JoyrideModule.forRoot(),
     RecommendationsModule,
@@ -259,7 +260,6 @@ import {DirectivesModule} from 'directives/directives.module';
     ExplorationFooterComponent,
     ExplorationSummaryTileComponent,
     FilteredChoicesFieldComponent,
-    CheckboxFilterCardComponent,
     FeedbackPopupComponent,
     PracticeTabComponent,
     CollectionSummaryTileComponent,
@@ -385,7 +385,6 @@ import {DirectivesModule} from 'directives/directives.module';
     ExplorationFooterComponent,
     ExplorationSummaryTileComponent,
     FilteredChoicesFieldComponent,
-    CheckboxFilterCardComponent,
     FeedbackPopupComponent,
     MultiSelectionFieldComponent,
     PracticeTabComponent,
@@ -510,6 +509,7 @@ import {DirectivesModule} from 'directives/directives.module';
     ObjectComponentsModule,
     OppiaCkEditor4Module,
     SearchBarModule,
+    CategoryLangFilterModule,
     SharedFormsModule,
     StringUtilityPipesModule,
     // Components, directives, and pipes.
@@ -543,7 +543,6 @@ import {DirectivesModule} from 'directives/directives.module';
     LearnerAnswerInfoCard,
     MultiSelectionFieldComponent,
     FilteredChoicesFieldComponent,
-    CheckboxFilterCardComponent,
     PracticeTabComponent,
     CollectionSummaryTileComponent,
     HintAndSolutionButtonsComponent,

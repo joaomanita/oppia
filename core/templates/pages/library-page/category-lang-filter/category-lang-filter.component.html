@@ -1,0 +1,34 @@
+<div class="container">
+  <mat-card class="list-view-item">
+    <mat-card-content>
+      <h3>Filter by subject</h3>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <div class="checkbox-container">
+        <mat-checkbox class="oppia-checkbox"
+                      *ngFor="let option of selectionDetails.categories.masterList"
+                      [ngModel]="selectionDetails.categories.selections[option.id]"
+                      (ngModelChange)="toggleSelection('categories', option.id)">
+          {{ option.text | translate }}
+        </mat-checkbox>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="list-view-item">
+    <mat-card-content>
+      <h3>Filter by language</h3>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <div class="checkbox-container">
+        <mat-checkbox class="oppia-checkbox"
+                      *ngFor="let option of selectionDetails.languageCodes.masterList"
+                      [ngModel]="selectionDetails.languageCodes.selections[option.id]"
+                      (ngModelChange)="toggleSelection('languageCodes', option.id)">
+          {{ option.text }}
+        </mat-checkbox>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

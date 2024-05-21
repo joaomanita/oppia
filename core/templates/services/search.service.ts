@@ -67,6 +67,25 @@ export class SearchService {
 
   public numSearchesInProgress = 0;
 
+  public selectionDetails: SelectionDetails = {
+    categories: {
+      description: '',
+      itemsName: 'categories',
+      masterList: [], // Should be initialized by the component.
+      selections: {},
+      numSelections: 0,
+      summary: '',
+    },
+    languageCodes: {
+      description: '',
+      itemsName: 'languages',
+      masterList: [], // Should be initialized by the component.
+      selections: {},
+      numSelections: 0,
+      summary: '',
+    },
+  };
+
   constructor(private _searchBackendApiService: SearchBackendApiService) {}
 
   private _getSuffixForQuery(
