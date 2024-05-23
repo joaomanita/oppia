@@ -263,6 +263,12 @@ describe('Search bar component', () => {
     expect(component.searchQueryChanged.next).toHaveBeenCalled();
   });
 
+  it('should be triggered by search service to make a search', () => {
+    spyOn(component, 'onSearchQueryChangeExec');
+    searchService.triggerSearch();
+    expect(component.onSearchQueryChangeExec).toHaveBeenCalled();
+  });
+
   it('should open submenu', () => {
     spyOn(navigationService, 'openSubmenu');
     // This throws "Argument of type 'null' is not assignable to parameter of

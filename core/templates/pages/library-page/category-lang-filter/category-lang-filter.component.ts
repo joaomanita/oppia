@@ -100,6 +100,7 @@ export class CategoryLangFilterComponent implements OnInit, OnDestroy {
     selections[optionName] = !selections[optionName];
 
     this.updateSelectionDetails(itemsType);
+    this.searchService.triggerSearch();
   }
 
   ngOnInit(): void {

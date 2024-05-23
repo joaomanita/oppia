@@ -68,6 +68,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   searchQueryChanged: Subject<string> = new Subject<string>();
   translationData: Record<string, number> = {};
   activeMenuName: string = '';
+  private searchTriggerSub: Subscription;
   @Input() enableDropup: boolean = false;
 
   constructor(
@@ -86,6 +87,12 @@ export class SearchBarComponent implements OnInit, OnDestroy {
       .getPathname()
       .startsWith('/learn');
     this.isSearchButtonActive();
+
+    this.searchTriggerSub = this.searchService.searchTriggered$.subscribe(
+      () => {
+        this.onSearchQueryChangeExec(); // Execute search when triggered.
+      }
+    );
   }
 
   isMobileViewActive(): boolean {
