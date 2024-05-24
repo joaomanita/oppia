@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * @fileoverview Component for the CategoryLangFilter.
+ * @fileoverview Component for the LanguageSelector.
  */
 
 import {Subscription} from 'rxjs';
@@ -25,10 +25,11 @@ import {WindowDimensionsService} from 'services/contextual/window-dimensions.ser
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
-  selector: 'oppia-category-lang-filter',
-  templateUrl: './category-lang-filter.component.html',
+  selector: 'oppia-language-selector',
+  templateUrl: './language-selector.component.html',
+  styleUrls: ['./language-selector.component.css'],
 })
-export class CategoryLangFilterComponent implements OnInit, OnDestroy {
+export class LanguageSelectorComponent implements OnInit, OnDestroy {
   // These properties are initialized using Angular lifecycle hooks
   // and we need to do non-null assertion. For more information, see
   // https://github.com/oppia/oppia/wiki/Guide-on-defining-types#ts-7-1
@@ -143,8 +144,8 @@ export class CategoryLangFilterComponent implements OnInit, OnDestroy {
 }
 
 angular.module('oppia').directive(
-  'oppiaCategoryLangFilter',
+  'oppiaLanguageSelector',
   downgradeComponent({
-    component: CategoryLangFilterComponent,
+    component: LanguageSelectorComponent,
   }) as angular.IDirectiveFactory
 );

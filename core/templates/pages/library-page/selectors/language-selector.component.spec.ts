@@ -13,14 +13,14 @@
 // limitations under the License.
 
 /**
- * @fileoverview Unit tests for the Category Lang Filter component.
+ * @fileoverview Unit tests for the Language Selector component.
  */
 
 import {EventEmitter} from '@angular/core';
 import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {I18nLanguageCodeService} from 'services/i18n-language-code.service';
-import {CategoryLangFilterComponent} from 'pages/library-page/category-lang-filter/category-lang-filter.component';
+import {LanguageSelectorComponent} from 'pages/library-page/selectors/language-selector.component';
 import {WindowDimensionsService} from 'services/contextual/window-dimensions.service';
 import {FormsModule} from '@angular/forms';
 import {MockTranslatePipe} from 'tests/unit-test-utils';
@@ -50,15 +50,15 @@ class MockTranslateService {
   }
 }
 
-describe('category-lang-filter component', () => {
+describe('language-selector component', () => {
   let i18nLanguageCodeService: I18nLanguageCodeService;
   let translateService: TranslateService;
   let windowDimensionsService: WindowDimensionsService;
-  let component: CategoryLangFilterComponent;
+  let component: LanguageSelectorComponent;
   let searchService: SearchService;
   let constructTranslationIdsService: ConstructTranslationIdsService;
   let languageUtilService: LanguageUtilService;
-  let fixture: ComponentFixture<CategoryLangFilterComponent>;
+  let fixture: ComponentFixture<LanguageSelectorComponent>;
   let preferredLanguageCodesLoadedEmitter = new EventEmitter();
   let selectionDetailsStub: SelectionDetails;
 
@@ -77,7 +77,7 @@ describe('category-lang-filter component', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, FormsModule, MaterialModule],
-      declarations: [CategoryLangFilterComponent, MockTranslatePipe],
+      declarations: [LanguageSelectorComponent, MockTranslatePipe],
       providers: [
         {
           provide: TranslateService,
@@ -133,7 +133,7 @@ describe('category-lang-filter component', () => {
       },
     };
 
-    fixture = TestBed.createComponent(CategoryLangFilterComponent);
+    fixture = TestBed.createComponent(LanguageSelectorComponent);
     component = fixture.componentInstance;
     i18nLanguageCodeService = TestBed.inject(I18nLanguageCodeService);
     spyOnProperty(
@@ -163,7 +163,7 @@ describe('category-lang-filter component', () => {
 
   it('should update selection details if there are no selections', () => {
     spyOn(translateService, 'instant').and.returnValue('key');
-    component.updateSelectionDetails('categories');
+    component.updateSelectionDetails('languageCodes');
     let selectionDetails = component.selectionDetails;
     expect(selectionDetails.categories.numSelections).toEqual(0);
   });
@@ -227,12 +227,8 @@ describe('category-lang-filter component', () => {
       },
     };
 
-    component.toggleSelection('categories', 'Algorithms');
     component.toggleSelection('languageCodes', 'Filipino');
-    component.updateSelectionDetails('categories');
-    expect(component.selectionDetails.categories.selections.Algorithms).toEqual(
-      true
-    );
+    component.updateSelectionDetails('languageCodes');
     expect(
       component.selectionDetails.languageCodes.selections.Filipino
     ).toEqual(true);
@@ -240,32 +236,5 @@ describe('category-lang-filter component', () => {
     expect(
       component.selectionDetails.languageCodes.selections.Filipino
     ).toEqual(false);
-  });
-
-  it('should contain "Algorithms" in categories masterList', () => {
-    searchService.selectionDetails = {
-      categories: {
-        description: '',
-        itemsName: 'categories',
-        masterList: searchDropdownCategories(),
-        numSelections: 0,
-        selections: {},
-        summary: '',
-      },
-      languageCodes: {
-        description: '',
-        itemsName: 'languages',
-        masterList: languageUtilService.getLanguageIdsAndTexts(),
-        numSelections: 0,
-        selections: {},
-        summary: '',
-      },
-    };
-
-    const containsAlgorithms =
-      component.selectionDetails.categories.masterList.some(
-        category => category.id === 'Algorithms'
-      );
-    expect(containsAlgorithms).toBe(true);
   });
 });

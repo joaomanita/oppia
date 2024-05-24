@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * @fileoverview Module for the category lang filter component.
+ * @fileoverview Module for the selector components.
  */
 
 import {CommonModule} from '@angular/common';
@@ -22,7 +22,8 @@ import {FormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
-import {CategoryLangFilterComponent} from 'pages/library-page/category-lang-filter/category-lang-filter.component';
+import {SubjectSelectorComponent} from 'pages/library-page/selectors/subject-selector.component';
+import {LanguageSelectorComponent} from 'pages/library-page/selectors/language-selector.component';
 import {StringUtilityPipesModule} from 'filters/string-utility-filters/string-utility-pipes.module';
 import {MaterialModule} from 'modules/material.module';
 
@@ -35,8 +36,8 @@ import {MaterialModule} from 'modules/material.module';
     TranslateModule,
     MaterialModule,
   ],
-  declarations: [CategoryLangFilterComponent],
-  entryComponents: [CategoryLangFilterComponent],
-  exports: [CategoryLangFilterComponent],
+  declarations: [SubjectSelectorComponent, LanguageSelectorComponent],
+  entryComponents: [SubjectSelectorComponent, LanguageSelectorComponent],
+  exports: [SubjectSelectorComponent, LanguageSelectorComponent],
 })
-export class CategoryLangFilterModule {}
+export class SelectorsModule {}
