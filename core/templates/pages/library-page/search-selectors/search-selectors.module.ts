@@ -22,8 +22,10 @@ import {FormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
-import {SubjectSelectorComponent} from 'pages/library-page/selectors/subject-selector.component';
-import {LanguageSelectorComponent} from 'pages/library-page/selectors/language-selector.component';
+import {SubjectSelectorComponent} from 'pages/library-page/search-selectors/subject-selector.component';
+import {SubjectSelectorModalComponent} from 'pages/library-page/search-selectors/subject-selector-modal.component';
+import {LanguageSelectorComponent} from 'pages/library-page/search-selectors/language-selector.component';
+import {LanguageSelectorModalComponent} from 'pages/library-page/search-selectors/language-selector-modal.component';
 import {StringUtilityPipesModule} from 'filters/string-utility-filters/string-utility-pipes.module';
 import {MaterialModule} from 'modules/material.module';
 
@@ -36,8 +38,23 @@ import {MaterialModule} from 'modules/material.module';
     TranslateModule,
     MaterialModule,
   ],
-  declarations: [SubjectSelectorComponent, LanguageSelectorComponent],
-  entryComponents: [SubjectSelectorComponent, LanguageSelectorComponent],
-  exports: [SubjectSelectorComponent, LanguageSelectorComponent],
+  declarations: [
+    SubjectSelectorComponent,
+    LanguageSelectorComponent,
+    SubjectSelectorModalComponent,
+    LanguageSelectorModalComponent,
+  ],
+  entryComponents: [
+    SubjectSelectorComponent,
+    LanguageSelectorComponent,
+    SubjectSelectorModalComponent,
+    LanguageSelectorModalComponent,
+  ],
+  exports: [
+    SubjectSelectorComponent,
+    LanguageSelectorComponent,
+    SubjectSelectorModalComponent,
+    LanguageSelectorModalComponent,
+  ],
 })
-export class SelectorsModule {}
+export class SearchSelectorsModule {}

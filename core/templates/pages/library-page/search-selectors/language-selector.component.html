@@ -1,0 +1,19 @@
+<div class="container">
+  <mat-card class="list-view-item">
+    <mat-card-content>
+      <h3>Filter by language</h3>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <div class="checkbox-container">
+        <mat-checkbox class="oppia-checkbox"
+                      *ngFor="let option of selectionDetails.languageCodes.masterList | slice:0:10"
+                      [ngModel]="selectionDetails.languageCodes.selections[option.id]"
+                      (ngModelChange)="toggleSelection('languageCodes', option.id)">
+          {{ option.text }}
+        </mat-checkbox>
+      </div>
+      <button (click)="openSelectorModal()">View All</button>
+    </mat-card-content>
+  </mat-card>
+</div>

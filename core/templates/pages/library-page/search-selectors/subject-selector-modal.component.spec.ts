@@ -13,15 +13,14 @@
 // limitations under the License.
 
 /**
- * @fileoverview Unit tests for the Language Selector component.
+ * @fileoverview Unit tests for the Subject Selector Modal component.
  */
 
 import {EventEmitter} from '@angular/core';
 import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {I18nLanguageCodeService} from 'services/i18n-language-code.service';
-import {LanguageSelectorComponent} from 'pages/library-page/selectors/language-selector.component';
-import {WindowDimensionsService} from 'services/contextual/window-dimensions.service';
+import {SubjectSelectorModalComponent} from 'pages/library-page/search-selectors/subject-selector-modal.component';
 import {FormsModule} from '@angular/forms';
 import {MockTranslatePipe} from 'tests/unit-test-utils';
 import {TranslateService} from '@ngx-translate/core';
@@ -29,17 +28,12 @@ import {MaterialModule} from 'modules/material.module';
 import {SearchService} from 'services/search.service';
 import {ConstructTranslationIdsService} from 'services/construct-translation-ids.service';
 import {LanguageUtilService} from 'domain/utilities/language-util.service';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {AppConstants} from 'app.constants';
 
 interface SearchDropDownCategories {
   id: string;
   text: string;
-}
-
-class MockWindowDimensionsService {
-  getWidth(): number {
-    return 766;
-  }
 }
 
 class MockTranslateService {
@@ -50,17 +44,17 @@ class MockTranslateService {
   }
 }
 
-describe('language-selector component', () => {
+describe('subject-selector-modal component', () => {
   let i18nLanguageCodeService: I18nLanguageCodeService;
   let translateService: TranslateService;
-  let windowDimensionsService: WindowDimensionsService;
-  let component: LanguageSelectorComponent;
+  let component: SubjectSelectorModalComponent;
   let searchService: SearchService;
   let constructTranslationIdsService: ConstructTranslationIdsService;
   let languageUtilService: LanguageUtilService;
-  let fixture: ComponentFixture<LanguageSelectorComponent>;
+  let fixture: ComponentFixture<SubjectSelectorModalComponent>;
   let preferredLanguageCodesLoadedEmitter = new EventEmitter();
   let selectionDetailsStub: SelectionDetails;
+  let ngbActiveModal: NgbActiveModal;
 
   const searchDropdownCategories = (): SearchDropDownCategories[] => {
     return AppConstants.SEARCH_DROPDOWN_CATEGORIES.map(categoryName => {
@@ -77,16 +71,13 @@ describe('language-selector component', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, FormsModule, MaterialModule],
-      declarations: [LanguageSelectorComponent, MockTranslatePipe],
+      declarations: [SubjectSelectorModalComponent, MockTranslatePipe],
       providers: [
         {
           provide: TranslateService,
           useClass: MockTranslateService,
         },
-        {
-          provide: WindowDimensionsService,
-          useClass: MockWindowDimensionsService,
-        },
+        NgbActiveModal,
       ],
     }).compileComponents();
   }));
@@ -133,7 +124,7 @@ describe('language-selector component', () => {
       },
     };
 
-    fixture = TestBed.createComponent(LanguageSelectorComponent);
+    fixture = TestBed.createComponent(SubjectSelectorModalComponent);
     component = fixture.componentInstance;
     i18nLanguageCodeService = TestBed.inject(I18nLanguageCodeService);
     spyOnProperty(
@@ -143,66 +134,31 @@ describe('language-selector component', () => {
     translateService = TestBed.inject(TranslateService);
     searchService = TestBed.inject(SearchService);
     languageUtilService = TestBed.inject(LanguageUtilService);
+    ngbActiveModal = TestBed.inject(NgbActiveModal);
     constructTranslationIdsService = TestBed.inject(
       ConstructTranslationIdsService
     );
-    windowDimensionsService = TestBed.inject(WindowDimensionsService);
     component.ngOnInit();
     fixture.detectChanges();
   });
 
-  it('should determine if mobile view is active', () => {
-    const windowWidthSpy = spyOn(
-      windowDimensionsService,
-      'getWidth'
-    ).and.returnValue(766);
-    expect(component.isMobileViewActive()).toBe(true);
-    windowWidthSpy.and.returnValue(1000);
-    expect(component.isMobileViewActive()).toBe(false);
-  });
-
   it('should update selection details if there are no selections', () => {
     spyOn(translateService, 'instant').and.returnValue('key');
-    component.updateSelectionDetails('languageCodes');
+    component.updateSelectionDetails('categories');
     let selectionDetails = component.selectionDetails;
     expect(selectionDetails.categories.numSelections).toEqual(0);
   });
 
-  it(
-    'should update selection details if selected languages' +
-      ' are greater than zero',
-    () => {
-      expect(component.selectionDetails.languageCodes.description).toEqual(
-        'I18N_LIBRARY_ALL_LANGUAGES_SELECTED'
-      );
-      searchService.selectionDetails = selectionDetailsStub;
-      spyOn(translateService, 'instant').and.returnValue('English');
-      component.updateSelectionDetails('languageCodes');
-      expect(component.selectionDetails.languageCodes.description).toEqual(
-        'English'
-      );
-    }
-  );
+  it('should update selection details', () => {
+    searchService.selectionDetails = selectionDetailsStub;
+    component.updateSelectionDetails('categories');
+    expect(component.selectionDetails).toEqual(selectionDetailsStub);
+  });
 
   it('should initialize', () => {
     spyOn(component, 'updateSelectionDetails');
-    spyOn(
-      i18nLanguageCodeService.onPreferredLanguageCodesLoaded,
-      'subscribe'
-    ).and.callFake((callb: (arg0: string[]) => void) => {
-      callb(['en', 'es']);
-      callb(['en', 'es']);
-      return null;
-    });
-    spyOn(translateService.onLangChange, 'subscribe').and.callFake(callb => {
-      callb();
-      return null;
-    });
     component.ngOnInit();
     expect(component.updateSelectionDetails).toHaveBeenCalled();
-    expect(
-      i18nLanguageCodeService.onPreferredLanguageCodesLoaded.subscribe
-    ).toHaveBeenCalled();
   });
 
   it('should detect selections', () => {
@@ -227,14 +183,50 @@ describe('language-selector component', () => {
       },
     };
 
-    component.toggleSelection('languageCodes', 'Filipino');
-    component.updateSelectionDetails('languageCodes');
-    expect(
-      component.selectionDetails.languageCodes.selections.Filipino
-    ).toEqual(true);
-    component.toggleSelection('languageCodes', 'Filipino');
-    expect(
-      component.selectionDetails.languageCodes.selections.Filipino
-    ).toEqual(false);
+    component.toggleSelection('categories', 'Algorithms');
+    component.updateSelectionDetails('categories');
+    expect(component.selectionDetails.categories.selections.Algorithms).toEqual(
+      true
+    );
+    component.toggleSelection('categories', 'Algorithms');
+    expect(component.selectionDetails.categories.selections.Algorithms).toEqual(
+      false
+    );
+  });
+
+  it('should contain "Algorithms" in categories masterList', () => {
+    searchService.selectionDetails = {
+      categories: {
+        description: '',
+        itemsName: 'categories',
+        masterList: searchDropdownCategories(),
+        numSelections: 0,
+        selections: {},
+        summary: '',
+      },
+      languageCodes: {
+        description: '',
+        itemsName: 'languages',
+        masterList: languageUtilService.getLanguageIdsAndTexts(),
+        numSelections: 0,
+        selections: {},
+        summary: '',
+      },
+    };
+
+    const containsAlgorithms =
+      component.selectionDetails.categories.masterList.some(
+        category => category.id === 'Algorithms'
+      );
+    expect(containsAlgorithms).toBe(true);
+  });
+
+  it('should apply filters on close', () => {
+    const dismissSpy = spyOn(ngbActiveModal, 'dismiss').and.callThrough();
+    spyOn(searchService, 'triggerSearch');
+    component.toggleSelection('categories', 'id');
+    component.closeModal();
+    expect(searchService.triggerSearch).toHaveBeenCalled();
+    expect(dismissSpy).toHaveBeenCalled();
   });
 });

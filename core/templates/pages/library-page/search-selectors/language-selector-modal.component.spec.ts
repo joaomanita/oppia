@@ -13,15 +13,14 @@
 // limitations under the License.
 
 /**
- * @fileoverview Unit tests for the Category Lang Filter component.
+ * @fileoverview Unit tests for the Language Selector Modal component.
  */
 
 import {EventEmitter} from '@angular/core';
 import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {I18nLanguageCodeService} from 'services/i18n-language-code.service';
-import {SubjectSelectorComponent} from 'pages/library-page/selectors/subject-selector.component';
-import {WindowDimensionsService} from 'services/contextual/window-dimensions.service';
+import {LanguageSelectorModalComponent} from 'pages/library-page/search-selectors/language-selector-modal.component';
 import {FormsModule} from '@angular/forms';
 import {MockTranslatePipe} from 'tests/unit-test-utils';
 import {TranslateService} from '@ngx-translate/core';
@@ -29,17 +28,12 @@ import {MaterialModule} from 'modules/material.module';
 import {SearchService} from 'services/search.service';
 import {ConstructTranslationIdsService} from 'services/construct-translation-ids.service';
 import {LanguageUtilService} from 'domain/utilities/language-util.service';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {AppConstants} from 'app.constants';
 
 interface SearchDropDownCategories {
   id: string;
   text: string;
-}
-
-class MockWindowDimensionsService {
-  getWidth(): number {
-    return 766;
-  }
 }
 
 class MockTranslateService {
@@ -50,17 +44,17 @@ class MockTranslateService {
   }
 }
 
-describe('subject-selector component', () => {
+describe('language-selector-modal component', () => {
   let i18nLanguageCodeService: I18nLanguageCodeService;
   let translateService: TranslateService;
-  let windowDimensionsService: WindowDimensionsService;
-  let component: SubjectSelectorComponent;
+  let component: LanguageSelectorModalComponent;
   let searchService: SearchService;
   let constructTranslationIdsService: ConstructTranslationIdsService;
   let languageUtilService: LanguageUtilService;
-  let fixture: ComponentFixture<SubjectSelectorComponent>;
+  let fixture: ComponentFixture<LanguageSelectorModalComponent>;
   let preferredLanguageCodesLoadedEmitter = new EventEmitter();
   let selectionDetailsStub: SelectionDetails;
+  let ngbActiveModal: NgbActiveModal;
 
   const searchDropdownCategories = (): SearchDropDownCategories[] => {
     return AppConstants.SEARCH_DROPDOWN_CATEGORIES.map(categoryName => {
@@ -77,16 +71,13 @@ describe('subject-selector component', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, FormsModule, MaterialModule],
-      declarations: [SubjectSelectorComponent, MockTranslatePipe],
+      declarations: [LanguageSelectorModalComponent, MockTranslatePipe],
       providers: [
         {
           provide: TranslateService,
           useClass: MockTranslateService,
         },
-        {
-          provide: WindowDimensionsService,
-          useClass: MockWindowDimensionsService,
-        },
+        NgbActiveModal,
       ],
     }).compileComponents();
   }));
@@ -133,7 +124,7 @@ describe('subject-selector component', () => {
       },
     };
 
-    fixture = TestBed.createComponent(SubjectSelectorComponent);
+    fixture = TestBed.createComponent(LanguageSelectorModalComponent);
     component = fixture.componentInstance;
     i18nLanguageCodeService = TestBed.inject(I18nLanguageCodeService);
     spyOnProperty(
@@ -146,40 +137,36 @@ describe('subject-selector component', () => {
     constructTranslationIdsService = TestBed.inject(
       ConstructTranslationIdsService
     );
-    windowDimensionsService = TestBed.inject(WindowDimensionsService);
+    ngbActiveModal = TestBed.inject(NgbActiveModal);
     component.ngOnInit();
     fixture.detectChanges();
   });
 
-  it('should determine if mobile view is active', () => {
-    const windowWidthSpy = spyOn(
-      windowDimensionsService,
-      'getWidth'
-    ).and.returnValue(766);
-    expect(component.isMobileViewActive()).toBe(true);
-    windowWidthSpy.and.returnValue(1000);
-    expect(component.isMobileViewActive()).toBe(false);
-  });
-
   it('should update selection details if there are no selections', () => {
     spyOn(translateService, 'instant').and.returnValue('key');
-    component.updateSelectionDetails('categories');
+    component.updateSelectionDetails('languageCodes');
     let selectionDetails = component.selectionDetails;
     expect(selectionDetails.categories.numSelections).toEqual(0);
   });
 
-  it('should update selection details', () => {
-    searchService.selectionDetails = selectionDetailsStub;
-    component.updateSelectionDetails('categories');
-    expect(component.selectionDetails).toEqual(selectionDetailsStub);
-  });
+  it(
+    'should update selection details if selected languages' +
+      ' are greater than zero',
+    () => {
+      expect(component.selectionDetails.languageCodes.description).toEqual(
+        'I18N_LIBRARY_ALL_LANGUAGES_SELECTED'
+      );
+      searchService.selectionDetails = selectionDetailsStub;
+      spyOn(translateService, 'instant').and.returnValue('English');
+      component.updateSelectionDetails('languageCodes');
+      expect(component.selectionDetails.languageCodes.description).toEqual(
+        'English'
+      );
+    }
+  );
 
   it('should initialize', () => {
     spyOn(component, 'updateSelectionDetails');
-    spyOn(translateService.onLangChange, 'subscribe').and.callFake(callb => {
-      callb();
-      return null;
-    });
     component.ngOnInit();
     expect(component.updateSelectionDetails).toHaveBeenCalled();
   });
@@ -206,41 +193,23 @@ describe('subject-selector component', () => {
       },
     };
 
-    component.toggleSelection('categories', 'Algorithms');
-    component.updateSelectionDetails('categories');
-    expect(component.selectionDetails.categories.selections.Algorithms).toEqual(
-      true
-    );
-    component.toggleSelection('categories', 'Algorithms');
-    expect(component.selectionDetails.categories.selections.Algorithms).toEqual(
-      false
-    );
+    component.toggleSelection('languageCodes', 'Filipino');
+    component.updateSelectionDetails('languageCodes');
+    expect(
+      component.selectionDetails.languageCodes.selections.Filipino
+    ).toEqual(true);
+    component.toggleSelection('languageCodes', 'Filipino');
+    expect(
+      component.selectionDetails.languageCodes.selections.Filipino
+    ).toEqual(false);
   });
 
-  it('should contain "Algorithms" in categories masterList', () => {
-    searchService.selectionDetails = {
-      categories: {
-        description: '',
-        itemsName: 'categories',
-        masterList: searchDropdownCategories(),
-        numSelections: 0,
-        selections: {},
-        summary: '',
-      },
-      languageCodes: {
-        description: '',
-        itemsName: 'languages',
-        masterList: languageUtilService.getLanguageIdsAndTexts(),
-        numSelections: 0,
-        selections: {},
-        summary: '',
-      },
-    };
-
-    const containsAlgorithms =
-      component.selectionDetails.categories.masterList.some(
-        category => category.id === 'Algorithms'
-      );
-    expect(containsAlgorithms).toBe(true);
+  it('should apply filters on close', () => {
+    const dismissSpy = spyOn(ngbActiveModal, 'dismiss').and.callThrough();
+    spyOn(searchService, 'triggerSearch');
+    component.toggleSelection('languageCodes', 'en');
+    component.closeModal();
+    expect(searchService.triggerSearch).toHaveBeenCalled();
+    expect(dismissSpy).toHaveBeenCalled();
   });
 });

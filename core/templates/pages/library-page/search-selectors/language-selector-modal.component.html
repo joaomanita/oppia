@@ -1,7 +1,11 @@
+<div class="modal-header">
+  <h5 class="modal-title">Select options</h5>
+  <button type="button" class="close" (click)="closeModal()">&times;</button>
+</div>
 <div class="container">
   <mat-card class="list-view-item">
     <mat-card-content>
-      <h3>Filter by language</h3>
+      <h3>Select language</h3>
     </mat-card-content>
     <mat-divider></mat-divider>
     <mat-card-content>
@@ -10,9 +14,12 @@
                       *ngFor="let option of selectionDetails.languageCodes.masterList"
                       [ngModel]="selectionDetails.languageCodes.selections[option.id]"
                       (ngModelChange)="toggleSelection('languageCodes', option.id)">
-          {{ option.text }}
+           {{ option.text }}
         </mat-checkbox>
       </div>
     </mat-card-content>
   </mat-card>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
 </div>

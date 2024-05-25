@@ -16,6 +16,8 @@
  * @fileoverview Component for the LanguageSelector.
  */
 
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {LanguageSelectorModalComponent} from './language-selector-modal.component';
 import {Subscription} from 'rxjs';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
@@ -40,7 +42,8 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
     private i18nLanguageCodeService: I18nLanguageCodeService,
     private windowDimensionsService: WindowDimensionsService,
     private searchService: SearchService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private modalService: NgbModal
   ) {}
 
   isMobileViewActive(): boolean {
@@ -102,6 +105,10 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
 
     this.updateSelectionDetails(itemsType);
     this.searchService.triggerSearch();
+  }
+
+  openSelectorModal(): void {
+    this.modalService.open(LanguageSelectorModalComponent);
   }
 
   ngOnInit(): void {

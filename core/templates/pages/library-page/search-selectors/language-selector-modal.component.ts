@@ -13,36 +13,31 @@
 // limitations under the License.
 
 /**
- * @fileoverview Component for the SubjectSelector.
+ * @fileoverview Component for the LanguageSelectorModal.
  */
 
-import {Subscription} from 'rxjs';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {Component, OnInit} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {SearchService, SelectionDetails} from 'services/search.service';
-import {WindowDimensionsService} from 'services/contextual/window-dimensions.service';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
-  selector: 'oppia-subject-selector',
-  templateUrl: './subject-selector.component.html',
-  styleUrls: ['./subject-selector.component.css'],
+  selector: 'oppia-language-selector-modal',
+  templateUrl: './language-selector-modal.component.html',
 })
-export class SubjectSelectorComponent implements OnInit, OnDestroy {
-  // These properties are initialized using Angular lifecycle hooks
-  // and we need to do non-null assertion. For more information, see
-  // https://github.com/oppia/oppia/wiki/Guide-on-defining-types#ts-7-1
-  directiveSubscriptions: Subscription = new Subscription();
+export class LanguageSelectorModalComponent implements OnInit {
   translationData: Record<string, number> = {};
 
   constructor(
-    private windowDimensionsService: WindowDimensionsService,
+    public activeModal: NgbActiveModal,
     private searchService: SearchService,
     private translateService: TranslateService
   ) {}
 
-  isMobileViewActive(): boolean {
-    return this.windowDimensionsService.getWidth() <= 766;
+  closeModal(): void {
+    this.searchService.triggerSearch();
+    this.activeModal.dismiss();
   }
 
   // Update the description, numSelections and summary fields of the
@@ -99,7 +94,6 @@ export class SubjectSelectorComponent implements OnInit, OnDestroy {
     selections[optionName] = !selections[optionName];
 
     this.updateSelectionDetails(itemsType);
-    this.searchService.triggerSearch();
   }
 
   ngOnInit(): void {
@@ -113,15 +107,11 @@ export class SubjectSelectorComponent implements OnInit, OnDestroy {
       this.updateSelectionDetails(itemsType);
     }
   }
-
-  ngOnDestroy(): void {
-    this.directiveSubscriptions.unsubscribe();
-  }
 }
 
 angular.module('oppia').directive(
-  'oppiaSubjectSelector',
+  'oppiaLanguageSelectorModal',
   downgradeComponent({
-    component: SubjectSelectorComponent,
+    component: LanguageSelectorModalComponent,
   }) as angular.IDirectiveFactory
 );
