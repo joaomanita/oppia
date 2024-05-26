@@ -2,12 +2,6 @@
   <form class="search-bar-float-left oppia-search-bar-form" role="search">
     <div class="form-group">
       <div class="input-group oppia-input-group inptcls" [ngClass]="{'classroom-page-input-group': isSearchButtonActive()}">
-        <div class="input-group-addon oppia-search-bar-icon">
-          <i class="fas fa-search oppia-translate-icon-down md-18" *ngIf="!isSearchInProgress()"></i>
-          <span *ngIf="isSearchInProgress()">
-            <i class="fas fa-sync oppia-animate-spin"></i>
-          </span>
-        </div>
         <input type="text"
                class="form-control oppia-search-bar-input oppia-search-bar-text-input e2e-test-search-input"
                [placeholder]="searchBarPlaceholder"
@@ -17,6 +11,12 @@
                aria-label="Search bar"
                (keydown.enter)="$event.target.blur(); onSearchQueryChangeExec()"
                (input)="searchToBeExec($event)">
+        <div class="input-group-addon oppia-search-bar-icon">
+          <i class="fas fa-search oppia-translate-icon-down md-18" *ngIf="!isSearchInProgress()"></i>
+          <span *ngIf="isSearchInProgress()">
+            <i class="fas fa-sync oppia-animate-spin"></i>
+          </span>
+        </div>
       </div>
     </div>
   </form>
