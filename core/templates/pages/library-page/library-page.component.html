@@ -1,5 +1,5 @@
 <div class="oppia-library-container d-flex">
-  <div class="oppia-checkbox-filter-container">
+  <div class="oppia-checkbox-filter-container" *ngIf="pageMode === LIBRARY_PAGE_MODES.SEARCH">
     <oppia-subject-selector>
     </oppia-subject-selector>
     <oppia-language-selector>
