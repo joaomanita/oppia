@@ -1,9 +1,9 @@
-<div class="container">
-  <mat-card class="list-view-item">
+<div class="filter-container">
+  <mat-card class="filter-box">
     <mat-card-content>
       <h3>Filter by language</h3>
+      <hr class="custom-divider">
     </mat-card-content>
-    <mat-divider></mat-divider>
     <mat-card-content>
       <div class="checkbox-container">
         <mat-checkbox class="oppia-checkbox"
@@ -13,7 +13,65 @@
           {{ option.text }}
         </mat-checkbox>
       </div>
-      <button (click)="openSelectorModal()">View All</button>
+      <span class="custom-arrow">&gt;</span><a class="custom-link" (click)="openSelectorModal()">All languages</a>
     </mat-card-content>
   </mat-card>
 </div>
+
+<style>
+  .filter-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+  }
+  .filter-box {
+    background-color: white;
+    border: 2px solid #8f8f8f;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    width: 250px;
+  }
+  .filter-box h3 {
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+  }
+  .custom-divider {
+    border: none;
+    border-top: 1px solid #000;
+    margin: 10px 0;
+  }
+  .checkbox-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .filter-box mat-checkbox {
+    width: 100%;
+  }
+  .filter-box .custom-arrow {
+    color: #00645c;
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  .filter-box .custom-link {
+    color: #00645c;
+    cursor: pointer;
+    display: inline;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 0;
+    text-decoration: underline;
+  }
+  .custom-link:hover {
+    color: #00645c;
+  }
+</style>

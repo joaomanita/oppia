@@ -1,25 +1,68 @@
-.container {
+body {
+  background-color: #d1e7f3;
+  font-family: Arial, sans-serif;
+}
+
+.filter-container {
+  align-items: center;
   display: flex;
-  justify-content: flex-start; /* Aligns the card to the left */
-  padding: 16px; /* Adds some padding around the container */
-  width: 250px; /* Sets a smaller width for the card */
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
 }
- 
-.list-view-item {
-  margin-right: 16px; /* Adds some space to the right of the card */
+
+.filter-box {
+  background-color: white;
+  border: 2px solid #8f8f8f;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 16px;
+  width: 250px;
 }
- 
+
+.filter-box h3 {
+  color: #333;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+}
+
+.custom-divider {
+  border: none;
+  border-top: 1px solid #000;
+  margin: 10px 0;
+}
+
 .checkbox-container {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-bottom: 10px;
 }
- 
-.mat-checkbox-layout {
+
+.filter-box mat-checkbox {
   width: 100%;
 }
- 
-.mat-divider {
-  margin: 16px 0; /* Adjusts spacing around the divider */
+
+.filter-box .custom-arrow {
+  color: #00645c;
+  font-size: 14px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.filter-box .custom-link {
+  color: #00645c;
+  cursor: pointer;
+  display: inline;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.custom-link:hover {
+  color: #00645c;
 }

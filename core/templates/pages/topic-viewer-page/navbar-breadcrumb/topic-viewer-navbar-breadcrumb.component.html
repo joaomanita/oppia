@@ -1,5 +1,7 @@
 <div *ngIf="!isLanguageRTL()" dir="auto" class="nav navbar-nav oppia-navbar-breadcrumb">
   <span class="oppia-navbar-breadcrumb-separator"></span>
+  <span>{{ 'I18N_CLASSROOM_MATH_TITLE' | translate }}</span>
+  <span class="oppia-navbar-breadcrumb-separator second-separator"></span>
   <span *ngIf="!isHackyTopicNameTranslationDisplayed()">
     {{ topicName }}
   </span>
@@ -21,6 +23,9 @@
   @media(max-width:768px) {
     .oppia-navbar-breadcrumb-separator {
       display: none
+    }
+    .oppia-navbar-breadcrumb-separator.second-separator {
+      margin-left: 5px;
     }
   }
 </style>
