@@ -8,7 +8,7 @@
     <div class="subjects-grid">
       <mat-checkbox class="oppia-checkbox"
                     *ngFor="let option of selectionDetails.languageCodes.masterList"
-                    [ngModel]="selectionDetails.languageCodes.selections[option.id]"
+                    [ngModel]="tempSelectionDetails.languageCodes.selections[option.id]"
                     (ngModelChange)="toggleSelection('languageCodes', option.id)">
               {{ option.text }}
       </mat-checkbox>
@@ -16,8 +16,8 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-outline-secondary" (click)="closeModal()">Clear all</button>
-  <button type="button" class="btn btn-success" (click)="saveSelections()">Save</button>
+  <button type="button" class="btn btn-outline-secondary" (click)="clearAll()">Clear all</button>
+  <button type="button" class="btn btn-success" (click)="applySelections()">Save</button>
 </div>
 
 <style>

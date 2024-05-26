@@ -28,6 +28,24 @@ import {TranslateService} from '@ngx-translate/core';
 })
 export class LanguageSelectorModalComponent implements OnInit {
   translationData: Record<string, number> = {};
+  tempSelectionDetails: SelectionDetails = {
+    categories: {
+      description: '',
+      itemsName: 'categories',
+      masterList: [], // Should be initialized by the component.
+      selections: {},
+      numSelections: 0,
+      summary: '',
+    },
+    languageCodes: {
+      description: '',
+      itemsName: 'languages',
+      masterList: [], // Should be initialized by the component.
+      selections: {},
+      numSelections: 0,
+      summary: '',
+    },
+  };
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -36,14 +54,27 @@ export class LanguageSelectorModalComponent implements OnInit {
   ) {}
 
   closeModal(): void {
-    this.searchService.triggerSearch();
+    this.clearAll();
     this.activeModal.dismiss();
+  }
+
+  applySelections(): void {
+    this.searchService.selectionDetails = JSON.parse(
+      JSON.stringify(this.tempSelectionDetails)
+    );
+    this.searchService.triggerSearch();
+    this.closeModal();
+  }
+
+  clearAll(): void {
+    this.tempSelectionDetails.languageCodes.selections = {};
+    this.tempSelectionDetails.languageCodes.numSelections = 0;
   }
 
   // Update the description, numSelections and summary fields of the
   // relevant entry of selectionDetails.
   updateSelectionDetails(itemsType: string): void {
-    let selectionDetails = this.selectionDetails;
+    let selectionDetails = this.tempSelectionDetails;
     let itemsName = selectionDetails[itemsType].itemsName;
     let masterList = selectionDetails[itemsType].masterList;
 
@@ -82,7 +113,7 @@ export class LanguageSelectorModalComponent implements OnInit {
   }
 
   toggleSelection(itemsType: string, optionName: string): void {
-    let selectionDetails = this.selectionDetails;
+    let selectionDetails = this.tempSelectionDetails;
     let selections = selectionDetails[itemsType].selections;
 
     if (!selections.hasOwnProperty(optionName)) {
@@ -102,10 +133,8 @@ export class LanguageSelectorModalComponent implements OnInit {
     // Non-translatable parts of the html strings, like numbers or user
     // names.
     this.translationData = {};
-    // Initialize the selection descriptions and summaries.
-    for (let itemsType in selectionDetails) {
-      this.updateSelectionDetails(itemsType);
-    }
+
+    this.tempSelectionDetails = JSON.parse(JSON.stringify(selectionDetails));
   }
 }
 

@@ -26,15 +26,7 @@ import {MockTranslatePipe} from 'tests/unit-test-utils';
 import {TranslateService} from '@ngx-translate/core';
 import {MaterialModule} from 'modules/material.module';
 import {SearchService} from 'services/search.service';
-import {ConstructTranslationIdsService} from 'services/construct-translation-ids.service';
-import {LanguageUtilService} from 'domain/utilities/language-util.service';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {AppConstants} from 'app.constants';
-
-interface SearchDropDownCategories {
-  id: string;
-  text: string;
-}
 
 class MockTranslateService {
   onLangChange: EventEmitter<string> = new EventEmitter();
@@ -49,24 +41,10 @@ describe('subject-selector-modal component', () => {
   let translateService: TranslateService;
   let component: SubjectSelectorModalComponent;
   let searchService: SearchService;
-  let constructTranslationIdsService: ConstructTranslationIdsService;
-  let languageUtilService: LanguageUtilService;
   let fixture: ComponentFixture<SubjectSelectorModalComponent>;
   let preferredLanguageCodesLoadedEmitter = new EventEmitter();
   let selectionDetailsStub: SelectionDetails;
   let ngbActiveModal: NgbActiveModal;
-
-  const searchDropdownCategories = (): SearchDropDownCategories[] => {
-    return AppConstants.SEARCH_DROPDOWN_CATEGORIES.map(categoryName => {
-      return {
-        id: categoryName,
-        text: constructTranslationIdsService.getLibraryId(
-          'categories',
-          categoryName
-        ),
-      };
-    });
-  };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -99,6 +77,10 @@ describe('subject-selector-modal component', () => {
           {
             id: 'id_3',
             text: 'category 3',
+          },
+          {
+            id: 'Algorithms',
+            text: '',
           },
         ],
         selections: {id: true, id_2: true, id_3: true},
@@ -133,13 +115,10 @@ describe('subject-selector-modal component', () => {
     ).and.returnValue(preferredLanguageCodesLoadedEmitter);
     translateService = TestBed.inject(TranslateService);
     searchService = TestBed.inject(SearchService);
-    languageUtilService = TestBed.inject(LanguageUtilService);
     ngbActiveModal = TestBed.inject(NgbActiveModal);
-    constructTranslationIdsService = TestBed.inject(
-      ConstructTranslationIdsService
-    );
     component.ngOnInit();
     fixture.detectChanges();
+    searchService.selectionDetails = selectionDetailsStub;
   });
 
   it('should update selection details if there are no selections', () => {
@@ -150,70 +129,31 @@ describe('subject-selector-modal component', () => {
   });
 
   it('should update selection details', () => {
-    searchService.selectionDetails = selectionDetailsStub;
+    component.tempSelectionDetails = selectionDetailsStub;
     component.updateSelectionDetails('categories');
     expect(component.selectionDetails).toEqual(selectionDetailsStub);
   });
 
   it('should initialize', () => {
-    spyOn(component, 'updateSelectionDetails');
     component.ngOnInit();
-    expect(component.updateSelectionDetails).toHaveBeenCalled();
+    expect(component.tempSelectionDetails).toEqual(selectionDetailsStub);
   });
 
   it('should detect selections', () => {
     spyOn(component, 'updateSelectionDetails');
 
-    searchService.selectionDetails = {
-      categories: {
-        description: '',
-        itemsName: 'categories',
-        masterList: searchDropdownCategories(),
-        numSelections: 0,
-        selections: {},
-        summary: '',
-      },
-      languageCodes: {
-        description: '',
-        itemsName: 'languages',
-        masterList: languageUtilService.getLanguageIdsAndTexts(),
-        numSelections: 0,
-        selections: {},
-        summary: '',
-      },
-    };
-
     component.toggleSelection('categories', 'Algorithms');
     component.updateSelectionDetails('categories');
-    expect(component.selectionDetails.categories.selections.Algorithms).toEqual(
-      true
-    );
+    expect(
+      component.tempSelectionDetails.categories.selections.Algorithms
+    ).toEqual(true);
     component.toggleSelection('categories', 'Algorithms');
-    expect(component.selectionDetails.categories.selections.Algorithms).toEqual(
-      false
-    );
+    expect(
+      component.tempSelectionDetails.categories.selections.Algorithms
+    ).toEqual(false);
   });
 
   it('should contain "Algorithms" in categories masterList', () => {
-    searchService.selectionDetails = {
-      categories: {
-        description: '',
-        itemsName: 'categories',
-        masterList: searchDropdownCategories(),
-        numSelections: 0,
-        selections: {},
-        summary: '',
-      },
-      languageCodes: {
-        description: '',
-        itemsName: 'languages',
-        masterList: languageUtilService.getLanguageIdsAndTexts(),
-        numSelections: 0,
-        selections: {},
-        summary: '',
-      },
-    };
-
     const containsAlgorithms =
       component.selectionDetails.categories.masterList.some(
         category => category.id === 'Algorithms'
@@ -221,11 +161,25 @@ describe('subject-selector-modal component', () => {
     expect(containsAlgorithms).toBe(true);
   });
 
+  it('should clear all selections', () => {
+    component.toggleSelection('categories', 'Algorithms');
+    component.clearAll();
+    expect(component.tempSelectionDetails.categories.selections).toEqual({});
+  });
+
+  it('should apply selections', () => {
+    component.toggleSelection('categories', 'Algorithms');
+    component.applySelections();
+    expect(
+      searchService.selectionDetails.categories.selections.Algorithms
+    ).toBe(true);
+  });
+
   it('should apply filters on close', () => {
     const dismissSpy = spyOn(ngbActiveModal, 'dismiss').and.callThrough();
     spyOn(searchService, 'triggerSearch');
     component.toggleSelection('categories', 'id');
-    component.closeModal();
+    component.applySelections();
     expect(searchService.triggerSearch).toHaveBeenCalled();
     expect(dismissSpy).toHaveBeenCalled();
   });
