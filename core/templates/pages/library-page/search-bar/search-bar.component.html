@@ -1,27 +1,25 @@
 <div class="oppia-same-row-container">
   <form class="search-bar-float-left oppia-search-bar-form" role="search">
     <div class="form-group">
-      <div class="input-group oppia-input-group inptcls" [ngClass]="{'classroom-page-input-group': isSearchButtonActive()}">
+      <div class="input-group oppia-input-group inptcls"
+        [ngClass]="{'classroom-page-input-group': isSearchButtonActive()}">
+        <input type="text" class="form-control oppia-search-bar-input oppia-search-bar-text-input e2e-test-search-input"
+               [placeholder]="searchBarPlaceholder" [(ngModel)]="searchQuery"
+               (ngModelChange)="searchButtonIsActive ? null : onSearchQueryChangeExec()"
+               [ngModelOptions]="{ updateOn: 'blur', standalone:'true' }" aria-label="Search bar"
+               (keydown.enter)="$event.target.blur(); onSearchQueryChangeExec()" (input)="searchToBeExec($event)">
         <div class="input-group-addon oppia-search-bar-icon">
           <i class="fas fa-search oppia-translate-icon-down md-18" *ngIf="!isSearchInProgress()"></i>
           <span *ngIf="isSearchInProgress()">
             <i class="fas fa-sync oppia-animate-spin"></i>
           </span>
         </div>
-        <input type="text"
-               class="form-control oppia-search-bar-input oppia-search-bar-text-input e2e-test-search-input"
-               [placeholder]="searchBarPlaceholder"
-               [(ngModel)]="searchQuery"
-               (ngModelChange)="searchButtonIsActive ? null : onSearchQueryChangeExec()"
-               [ngModelOptions]="{ updateOn: 'blur', standalone:'true' }"
-               aria-label="Search bar"
-               (keydown.enter)="$event.target.blur(); onSearchQueryChangeExec()"
-               (input)="searchToBeExec($event)">
       </div>
     </div>
   </form>
 </div>
 
+<!--
 <div class="oppia-same-row-container">
   <div [ngClass]="{'open' : activeMenuName === 'category', 'dropup' : enableDropup}"
        ngbDropdown
@@ -241,76 +239,88 @@
     </div>
   </div>
 </div>
+-->
+
 <style>
   :lang(ar) .oppia-search-bar-dropdown-toggle-button:after {
-     margin-right: 30px;
+    margin-right: 30px;
   }
+
   :lang(ar) .oppia-search-bar-dropdown-toggle:after {
     margin-right: 2px;
   }
+
   @media (max-width: 445px) {
 
-.classroom-page-input-group.inptcls {
+    .classroom-page-input-group.inptcls {
       font-size: 15.7px;
       width: 14em;
- }
+    }
 
-/* stylelint-disable order/properties-alphabetical-order */
-.search-bar-float-left .oppia-search-bar-dropdown-toggle.catbtn {
-  font-size: 13px;
-  position: relative;
-  left: 5rem;
-  width: 11em;
-}
-.oppia-search-bar-language-selector .langbtn {
-  font-size: 13px;
-  position: relative;
-  left: 3rem;
-  width: 11em;
-}
-  /* stylelint-enable order/properties-alphabetical-order */
-  :lang(ar) .classroom-page-input-group.inptcls {
-    font-size: 12px;
-    width: 14em;
-  }
-  :lang(ar) .search-bar-float-left .oppia-search-bar-dropdown-toggle.catbtn {
- font-size: 13px;
- position: relative;
- right: 9rem;
- width: 10em;
-  }
-  :lang(ar) .oppia-search-bar-language-selector .langbtn {
- font-size: 13px;
- padding-left: 3rem;
- position: relative;
- right: 8rem;
- width: 10em;
-  }
-}
-@media (max-width : 340px) {
+    /* stylelint-disable order/properties-alphabetical-order */
+    .search-bar-float-left .oppia-search-bar-dropdown-toggle.catbtn {
+      font-size: 13px;
+      position: relative;
+      left: 5rem;
+      width: 11em;
+    }
 
- :lang(ar) .oppia-search-bar-language-selector .langbtn {
- font-size: 13px;
- padding-left: 3rem;
- position: relative;
- right: 8rem;
- width: 10em;
+    .oppia-search-bar-language-selector .langbtn {
+      font-size: 13px;
+      position: relative;
+      left: 3rem;
+      width: 11em;
+    }
+
+    /* stylelint-enable order/properties-alphabetical-order */
+    :lang(ar) .classroom-page-input-group.inptcls {
+      font-size: 12px;
+      width: 14em;
+    }
+
+    :lang(ar) .search-bar-float-left .oppia-search-bar-dropdown-toggle.catbtn {
+      font-size: 13px;
+      position: relative;
+      right: 9rem;
+      width: 10em;
+    }
+
+    :lang(ar) .oppia-search-bar-language-selector .langbtn {
+      font-size: 13px;
+      padding-left: 3rem;
+      position: relative;
+      right: 8rem;
+      width: 10em;
+    }
   }
-}
-@media (max-width : 285px) {
-  .classroom-page-input-group.inptcls {
-    font-size: 13.4px;
-    width: 13.4em;
+
+  @media (max-width : 340px) {
+
+    :lang(ar) .oppia-search-bar-language-selector .langbtn {
+      font-size: 13px;
+      padding-left: 3rem;
+      position: relative;
+      right: 8rem;
+      width: 10em;
+    }
   }
-  .search-bar-float-left .oppia-search-bar-dropdown-toggle.catbtn {
-  font-size: 10px;
- left: 10rem;
- width: 12em;
+
+  @media (max-width : 285px) {
+    .classroom-page-input-group.inptcls {
+      font-size: 13.4px;
+      width: 13.4em;
+    }
+
+    .search-bar-float-left .oppia-search-bar-dropdown-toggle.catbtn {
+      font-size: 10px;
+      left: 10rem;
+      width: 12em;
+    }
+
+    .oppia-search-bar-language-selector .langbtn {
+      font-size: 10px;
+      left: 4.8rem;
+      width: 12em;
+    }
   }
-  .oppia-search-bar-language-selector .langbtn {
-    font-size: 10px;
-    left: 4.8rem;
-    width: 12em;
-  }
-}
 </style>

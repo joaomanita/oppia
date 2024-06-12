@@ -249,7 +249,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     // exception, we translate them here and update the translation
     // every time the language is changed.
     this.searchBarPlaceholder = this.translateService.instant(
-      'I18N_LIBRARY_SEARCH_PLACEHOLDER'
+      'I18N_LIBRARY_SEARCH_PLACEHOLDER_SUBJECTS'
     );
     // 'messageformat' is the interpolation method for plural forms.
     // http://angular-translate.github.io/docs/#/guide/14_pluralization.
